@@ -1,11 +1,14 @@
 const Sequelize = require('sequelize');
-const CONNECTION_STRING = precess.env.DATABASE || "postgres://postgres:helal2244@localhost.com:5432/urls";
+const CONNECTION_STRING = process.env.DATABASE || "postgres://postgres:helal2244@localhost:5432/urls";
 const db = new Sequelize(CONNECTION_STRING);
 
 /* create user table */
 const User = db.define('user', {
     name: Sequelize.TEXT,
-    email: Sequelize.TEXT,
+    email: {
+        type: Sequelize.TEXT,
+        unique: true
+    },
     password: Sequelize.TEXT
 });
 
@@ -15,6 +18,11 @@ const Direction = db.define('direction', {
     hash: Sequelize.TEXT
 });
 
+db.sync()
+    .then(e => {
+        console.log('Database Synced!');
+    }).catch(e => console.log(e.message));
+
 module.exports = {
-    db,User,Direction
+    db, User, Direction
 }

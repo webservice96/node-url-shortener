@@ -20,5 +20,3 @@ function validate(password, hash, salt) {
 }
 
 module.exports = { validate, generate }
-
-
